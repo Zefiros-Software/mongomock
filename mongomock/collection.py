@@ -1483,13 +1483,13 @@ class Collection(object):
             if operator == '$size':
                 if isinstance(value, list):
                     if len(value) != 1:
-                        raise OperationFailure("Expression $size takes exactly 1 arguments. %d were passed in."
-                                               % len(value))
+                        raise OperationFailure("Expression $size takes exactly 1 arguments. "
+                                               "%d were passed in." % len(value))
                     value = value[0]
                 array_value = _parse_expression(value, doc_dict)
                 if not isinstance(array_value, list):
-                    raise OperationFailure("The argument to $size must be an array, but was of type: %s"
-                                           % type(array_value))
+                    raise OperationFailure("The argument to $size must be an array, "
+                                           "but was of type: %s" % type(array_value))
                 return len(array_value)
             else:
                 raise NotImplementedError("Although '%s' is a valid project operator for the "

@@ -1256,7 +1256,7 @@ class CollectionAPITest(TestCase):
         self.assertEqual(result2['size'], 3)
 
     def test__array_size_valid_argument_array(self):
-        self.db.collection.insert_one({'_id': 1, 'arr': [1, 2, 3] })
+        self.db.collection.insert_one({'_id': 1, 'arr': [1, 2, 3]})
         result1 = self.db.collection.aggregate([
             {'$project': {'size': {'$size': [[1, 2]]}}}
         ]).next()

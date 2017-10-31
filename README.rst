@@ -184,8 +184,8 @@ Also, many thanks go to the following people for helping out, contributing pull 
 .. _gitflow workflow: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 
 
-.. |travis| image:: https://travis-ci.org/mongomock/mongomock.svg?branch=develop
-    :target: https://travis-ci.org/mongomock/mongomock
+.. |travis| image:: https://travis-ci.org/Zefiros-Software/mongomock.svg?branch=develop
+    :target: https://travis-ci.org/Zefiros-Software/mongomock
     :alt: Travis CI build
 
 .. |pypi_version| image:: https://img.shields.io/pypi/v/mongomock.svg

@@ -1478,8 +1478,33 @@ class Collection(object):
                                           "aggregation pipeline, it is currently not implemented "
                                           "in Mongomock." % operator)
 
+        def _handle_projection_operator(operator, value, doc_dict):
+            if operator == '$literal':
+                return value
+            else:
+                raise NotImplementedError("Although '%s' is a valid project operator for the "
+                                          "aggregation pipeline, it is currently not implemented "
+                                          "in Mongomock." % operator)
+
+        def _handle_array_operator(operator, value, doc_dict):
+            if operator == '$size':
+                if isinstance(value, list):
+                    if len(value) != 1:
+                        raise OperationFailure("Expression $size takes exactly 1 arguments. "
+                                               "%d were passed in." % len(value))
+                    value = value[0]
+                array_value = _parse_expression(value, doc_dict)
+                if not isinstance(array_value, list):
+                    raise OperationFailure("The argument to $size must be an array, "
+                                           "but was of type: %s" % type(array_value))
+                return len(array_value)
+            else:
+                raise NotImplementedError("Although '%s' is a valid project operator for the "
+                                          "aggregation pipeline, it is currently not implemented "
+                                          "in Mongomock." % operator)
+
         def _parse_basic_expression(expression, doc_dict):
-            if isinstance(expression, str) and expression.startswith('$'):
+            if isinstance(expression, helpers.basestring) and expression.startswith('$'):
                 get_value = helpers.embedded_item_getter(expression.replace('$', ''))
                 return get_value(doc_dict)
             else:
@@ -1495,10 +1520,14 @@ class Collection(object):
                     return _handle_arithmetic_operator(k, v, doc_dict)
                 elif k in project_operators:
                     return _handle_project_operator(k, v, doc_dict)
+                elif k in projection_operators:
+                    return _handle_projection_operator(k, v, doc_dict)
                 elif k in comparison_operators:
                     return _handle_comparison_operator(k, v, doc_dict)
                 elif k in date_operators:
                     return _handle_date_operator(k, v, doc_dict)
+                elif k in array_operators:
+                    return _handle_array_operator(k, v, doc_dict)
                 else:
                     value_dict[k] = _parse_expression(v, doc_dict)
 

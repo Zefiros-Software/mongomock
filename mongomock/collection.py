@@ -1127,7 +1127,7 @@ class Collection(object):
         if filter is None:
             return len(self._documents)
         else:
-            return len(self.find(filter, **kwargs))
+            return self.find(filter, **kwargs).count(True)
 
     def drop(self):
         self.database.drop_collection(self.name)

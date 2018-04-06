@@ -1125,7 +1125,7 @@ class Collection(object):
 
     def count(self, filter=None, **kwargs):
         if filter is None:
-            return len(self._documents)
+            return self.find({}, **kwargs).count(True)
         else:
             return self.find(filter, **kwargs).count(True)
 
